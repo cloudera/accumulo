@@ -106,8 +106,10 @@ public class AccumuloClassLoader {
   
   public static final String DYNAMIC_CLASSPATH_PROPERTY_NAME = "general.dynamic.classpaths";
   
-  public static final String ACCUMULO_CLASSPATH_VALUE = "$ACCUMULO_HOME/conf,\n" + "$ACCUMULO_HOME/lib/[^.].$ACCUMULO_VERSION.jar,\n"
-      + "$ACCUMULO_HOME/lib/[^.].*.jar,\n" + "$ZOOKEEPER_HOME/zookeeper[^.].*.jar,\n" + "$HADOOP_HOME/[^.].*.jar,\n" + "$HADOOP_HOME/conf,\n"
+  public static final String ACCUMULO_CLASSPATH_VALUE = "$ACCUMULO_HOME/conf,\n" 
+      + "$ACCUMULO_HOME/lib/[^.].*.jar,\n" 
+      + "$ZOOKEEPER_HOME/zookeeper[^.].*.jar,\n" 
+      + "$HADOOP_PREFIX/[^.].*.jar,\n" + "$HADOOP_CONF_DIR,\n"
       + "$HADOOP_HOME/lib/[^.].*.jar,\n";
   
   /**
