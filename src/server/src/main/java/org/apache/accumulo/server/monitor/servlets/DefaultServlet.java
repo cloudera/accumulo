@@ -52,7 +52,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hdfs.DistributedFileSystem;
 import org.apache.hadoop.hdfs.protocol.DatanodeInfo;
-import org.apache.hadoop.hdfs.protocol.FSConstants.DatanodeReportType;
+import org.apache.hadoop.hdfs.protocol.FSConstants;
 import org.apache.hadoop.ipc.RemoteException;
 
 public class DefaultServlet extends BasicServlet {
@@ -312,8 +312,8 @@ public class DefaultServlet extends BasicServlet {
       tableRow(sb, (highlight = !highlight), "Unreplicated&nbsp;Capacity", bytes(fs.getRawCapacity()));
       tableRow(sb, (highlight = !highlight), "%&nbsp;Used", NumberType.commas(fs.getRawUsed() * 100. / fs.getRawCapacity(), 0, 90, 0, 100) + "%");
       tableRow(sb, (highlight = !highlight), "Corrupt&nbsp;Blocks", NumberType.commas(fs.getCorruptBlocksCount(), 0, 0));
-      DatanodeInfo[] liveNodes = fs.getClient().datanodeReport(DatanodeReportType.LIVE);
-      DatanodeInfo[] deadNodes = fs.getClient().datanodeReport(DatanodeReportType.DEAD);
+      DatanodeInfo[] liveNodes = fs.getClient().datanodeReport(FSConstants.DatanodeReportType.LIVE);
+      DatanodeInfo[] deadNodes = fs.getClient().datanodeReport(FSConstants.DatanodeReportType.DEAD);
       tableRow(sb, (highlight = !highlight), "<a href='" + liveUrl + "'>Live&nbsp;Data&nbsp;Nodes</a>", NumberType.commas(liveNodes.length));
       tableRow(sb, (highlight = !highlight), "<a href='" + deadUrl + "'>Dead&nbsp;Data&nbsp;Nodes</a>", NumberType.commas(deadNodes.length));
       long count = 0;
