@@ -98,7 +98,7 @@ class TestUtilsMixin:
         cmd = map(str, cmd)
         log.debug('%s: %s', host, ' '.join(cmd))
         if host == 'localhost':
-            os.environ['ACCUMULO_TSERVER_OPTS']='-Xmx700m '
+            os.environ['ACCUMULO_TSERVER_OPTS']='-Xmx700m -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75'
             os.environ['ACCUMULO_GENERAL_OPTS']=('-Dorg.apache.accumulo.config.file=%s' % (SITE))
             os.environ['ACCUMULO_LOG_DIR']= ACCUMULO_HOME + '/logs/' + ID
             return Popen(cmd, stdout=PIPE, stderr=PIPE, **opts)

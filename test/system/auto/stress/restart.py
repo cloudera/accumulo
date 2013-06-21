@@ -78,7 +78,7 @@ class KilledTabletServerTest(RestartTest):
         self.waitForStop(handle, timeout)
 
     def readRows(self):
-        self.stopRead(self.startRead(), 300)
+        self.stopRead(self.startRead(), 600)
 
     def runTest(self):
 

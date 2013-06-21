@@ -29,7 +29,7 @@ class JavaTest(TestUtilsMixin, unittest.TestCase):
     order = 21
     testClass=""
 
-    maxRuntime = 120
+    maxRuntime = 360
 
     def setUp(self):
         handle = self.runJTest('localhost','getConfig')
