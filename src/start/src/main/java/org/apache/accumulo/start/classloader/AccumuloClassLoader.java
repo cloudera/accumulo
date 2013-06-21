@@ -116,7 +116,10 @@ public class AccumuloClassLoader {
           "$HADOOP_PREFIX/share/hadoop/common/.*.jar,\n" +
           "$HADOOP_PREFIX/share/hadoop/common/lib/.*.jar,\n" +
           "$HADOOP_PREFIX/share/hadoop/hdfs/.*.jar,\n" +
-          "$HADOOP_PREFIX/share/hadoop/mapreduce/.*.jar,\n"
+          "$HADOOP_PREFIX/share/hadoop/mapreduce/.*.jar,\n" +
+          "/opt/cloudera/parcels/CDH/lib/hadoop/client-0.20/[^.].*.jar,\n" +
+          "/opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/[^.].*.jar,\n" +
+          "/opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/lib/[^.].*.jar,\n"
           ;
   
   /**

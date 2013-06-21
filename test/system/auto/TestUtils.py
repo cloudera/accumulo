@@ -64,6 +64,13 @@ $ACCUMULO_HOME/server/target/classes/,
       $HADOOP_PREFIX/share/hadoop/common/lib/.*.jar,
       $HADOOP_PREFIX/share/hadoop/hdfs/.*.jar,
       $HADOOP_PREFIX/share/hadoop/mapreduce/.*.jar,
+    /etc/hadoop/conf,
+    /opt/cloudera/parcels/CDH/lib/hadoop-hdfs/[^.].*.jar,
+    /opt/cloudera/parcels/CDH/lib/hadoop-hdfs/lib/[^.].*.jar,
+    /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/[^.].*.jar,
+    /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/lib/[^.].*.jar,
+    /opt/cloudera/parcels/CDH/lib/hadoop/client-0.20/[^.].*.jar,
+    /opt/cloudera/parcels/CDH/lib/hadoop/client-0.20/lib/[^.].*.jar,
 """
 
 log = logging.getLogger('test.auto')
