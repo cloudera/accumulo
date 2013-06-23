@@ -71,6 +71,7 @@ $ACCUMULO_HOME/server/target/classes/,
     /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/lib/[^.].*.jar,
     /opt/cloudera/parcels/CDH/lib/hadoop/client-0.20/[^.].*.jar,
     /opt/cloudera/parcels/CDH/lib/hadoop/client-0.20/lib/[^.].*.jar,
+    $ACCUMULO_CONF_DIR,
 """
 
 log = logging.getLogger('test.auto')
