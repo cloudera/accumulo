@@ -14,7 +14,21 @@
 # limitations under the License.
 
 # ya... I know, this is a bad recursive makefile...
-all: nm ml
+
+# g++ is required, as well as the glibc-devel and libstdc++ libraries.
+# On intel 64bit linux, the 32-bit versions of the i686 libs are also required.
+#
+# centos6:
+#   yum install glibc-devel.i686 libstdc++-devel.i686
+# ubuntu:
+#   apt-get install libc6-dev-i686 g++-multilib
+
+SHELL=/bin/bash
+
+all: check nm ml
+
+check:
+	if [ -z `which g++` ] ; then echo "g++ and 32bit glibc-devel and libstdc++-devel is required to build native map and mlock modules" ;  exit 1 ; fi
 
 nm: 
 	cd nativeMap ; $(MAKE)
