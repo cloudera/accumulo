@@ -349,7 +349,13 @@ public class CoordinateRecoveryTask implements Runnable {
           }
         }
       }
-      FileStatus[] children = fs.listStatus(new Path(ServerConstants.getRecoveryDir()));
+      FileStatus[] children;
+      try {
+	  children  = fs.listStatus(new Path(ServerConstants.getRecoveryDir()));
+      } catch (FileNotFoundException fnfe) {
+	  // hadoop2 throws FNFE if path does not exist.  hadoop1 returns null;
+	  return;
+      }
       if (children != null) {
         for (FileStatus child : children) {
           log.info("Deleting recovery directory " + child);
@@ -410,7 +416,13 @@ public class CoordinateRecoveryTask implements Runnable {
   private void removeOldRecoverFiles() throws IOException {
     long now = System.currentTimeMillis();
     long maxAgeInMillis = ServerConfiguration.getSystemConfiguration().getTimeInMillis(Property.MASTER_RECOVERY_MAXAGE);
-    FileStatus[] children = fs.listStatus(new Path(ServerConstants.getRecoveryDir()));
+    FileStatus[] children;
+    try {
+	children = fs.listStatus(new Path(ServerConstants.getRecoveryDir()));
+    } catch (FileNotFoundException fnfe) {
+	// hadoop2 throws FNFE if path does not exist. hadoop1 returns null.
+	return;
+    }
     if (children != null) {
       for (FileStatus child : children) {
         if (now - child.getModificationTime() > maxAgeInMillis && !delete(child.getPath())) {

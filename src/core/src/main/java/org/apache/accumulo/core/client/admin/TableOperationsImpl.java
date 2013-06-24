@@ -16,6 +16,7 @@
  */
 package org.apache.accumulo.core.client.admin;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -903,7 +904,13 @@ public class TableOperationsImpl extends TableOperationsHelper {
       throws IOException, AccumuloException, AccumuloSecurityException {
     FileSystem fs = FileSystem.get(CachedConfiguration.getInstance());
     Path failPath = new Path(failureDir);
-    FileStatus[] listStatus = fs.listStatus(failPath);
+    FileStatus[] listStatus = null;
+    try {  
+	listStatus = fs.listStatus(failPath);
+    } catch (FileNotFoundException fnfe) {
+	// hadoop2 throws FNFE, whilc hadoop1 returns nll if path doesn't exist
+    }
+
     if (fs.exists(failPath) && listStatus != null && listStatus.length != 0)
       throw new AccumuloException("Failure directory exists, and is not empty");
     if (!fs.exists(failPath))
@@ -930,7 +937,13 @@ public class TableOperationsImpl extends TableOperationsHelper {
       throw new AccumuloException("Bulk import directory " + dir + " does not exist!");
     if (!fs.exists(failPath))
       throw new AccumuloException("Bulk import failure directory " + failureDir + " does not exist!");
-    FileStatus[] listStatus = fs.listStatus(failPath);
+    FileStatus[] listStatus = null;
+    try {
+	listStatus = fs.listStatus(failPath);
+    } catch (FileNotFoundException fnfe) {
+	// hadoop2 throws FNFE, whilc hadoop1 returns nll if path doesn't exist
+    }
+
     if (listStatus != null && listStatus.length != 0) {
       if (listStatus.length == 1 && listStatus[0].isDir())
         throw new AccumuloException("Bulk import directory " + failPath + " is a file");
