@@ -220,7 +220,7 @@ public class AccumuloInputFormatTest {
   @SuppressWarnings("deprecation")
   @Test
   public void testSetIteratorOption() {
-    JobContext job = new JobContext(new Configuration(), new JobID());
+    JobContext job = ContextFactory.createJobContext();
     AccumuloInputFormat.setIteratorOption(job, "someIterator", "aKey", "aValue");
     
     Configuration conf = job.getConfiguration();
@@ -234,7 +234,7 @@ public class AccumuloInputFormatTest {
   @SuppressWarnings("deprecation")
   @Test
   public void testGetIteratorOption() {
-    JobContext job = new JobContext(new Configuration(), new JobID());
+    JobContext job = ContextFactory.createJobContext();
     
     AccumuloInputFormat.setIteratorOption(job, "iterator1", "key1", "value1");
     AccumuloInputFormat.setIteratorOption(job, "iterator2", "key2", "value2");
