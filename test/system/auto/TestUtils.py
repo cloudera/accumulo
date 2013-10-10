@@ -61,7 +61,9 @@ ZOOKEEPERS = socket.getfqdn()
 accumulo_site = os.path.join(ACCUMULO_HOME, 'conf', 'accumulo-site.xml')
 if os.path.exists(accumulo_site):
    import config
-   ZOOKEEPERS = config.parse(accumulo_site).get('instance.zookeeper.host', ZOOKEEPERS)
+   local_config = config.parse(accumulo_site)
+   ZOOKEEPERS = local_config.get('instance.zookeeper.host', ZOOKEEPERS)
+   General_CLASSPATH = local_config.get('general.classpaths', General_CLASSPATH)
 
 class Popen(BasePopen):
    def __init__(self, cmd, **args):
