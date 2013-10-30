@@ -20,7 +20,7 @@
   <parent>
         <artifactId>accumulo</artifactId>
         <groupId>org.apache.accumulo</groupId>
-        <version>1.4.3-cdh4.3.0-beta-3</version>
+        <version>1.4.3-cdh4.3.0</version>
         <relativePath>../../</relativePath>
   </parent>
   <artifactId>accumulo-examples</artifactId>

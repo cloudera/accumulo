@@ -83,7 +83,7 @@ fi
 export ACCUMULO_LOG_DIR
 
 if [ -z ${ACCUMULO_VERSION} ]; then
-        ACCUMULO_VERSION=1.4.3-cdh4.3.0-beta-3
+        ACCUMULO_VERSION=1.4.3-cdh4.3.0
 fi
 
 if [ -z "$HADOOP_PREFIX" ]
