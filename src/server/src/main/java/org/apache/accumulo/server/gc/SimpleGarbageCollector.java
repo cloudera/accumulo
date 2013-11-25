@@ -113,7 +113,7 @@ public class SimpleGarbageCollector implements Iface {
   private long gcStartDelay;
   private boolean checkForBulkProcessingFiles;
   private FileSystem fs;
-  private Option optSafeMode, optOffline, optVerboseMode, optAddress, optNoTrash;
+  private Option optSafeMode, optOffline, optVerboseMode, optAddress;
   private Trash trash = null;
   private boolean safemode, offline, verbose, noTrash;
   private String address;
@@ -151,12 +151,10 @@ public class SimpleGarbageCollector implements Iface {
     optOffline = new Option("o", "offline", false,
         "offline mode will run once and check data files directly; this is dangerous if accumulo is running or not shut down properly");
     optAddress = new Option("a", "address", true, "specify our local address");
-    optNoTrash = new Option("t", "no-trash", false, "do not use hdfs trash if it is enabled");
     opts.addOption(optVerboseMode);
     opts.addOption(optSafeMode);
     opts.addOption(optOffline);
     opts.addOption(optAddress);
-    opts.addOption(optNoTrash);
     
     try {
       commandLine = new BasicParser().parse(opts, args);
@@ -167,7 +165,6 @@ public class SimpleGarbageCollector implements Iface {
       offline = commandLine.hasOption(optOffline.getOpt());
       verbose = commandLine.hasOption(optVerboseMode.getOpt());
       address = commandLine.getOptionValue(optAddress.getOpt());
-      noTrash = commandLine.hasOption(optNoTrash.getOpt());
     } catch (ParseException e) {
       String str = "Can't parse the command line options";
       log.fatal(str, e);
@@ -183,6 +180,7 @@ public class SimpleGarbageCollector implements Iface {
     gcStartDelay = conf.getTimeInMillis(Property.GC_CYCLE_START);
     long gcDelay = conf.getTimeInMillis(Property.GC_CYCLE_DELAY);
     numDeleteThreads = conf.getCount(Property.GC_DELETE_THREADS);
+    noTrash = conf.getBoolean(Property.GC_TRASH_IGNORE);
     log.info("start delay: " + (offline ? 0 + " sec (offline)" : gcStartDelay + " milliseconds"));
     log.info("time delay: " + gcDelay + " milliseconds");
     log.info("safemode: " + safemode);
