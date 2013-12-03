@@ -14,7 +14,8 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
---><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -23,8 +24,8 @@
     <version>4.5.0</version>
     <relativePath></relativePath><!-- no parent resolution -->
   </parent>
-  
-  
+
+
   <groupId>org.apache.accumulo</groupId>
   <artifactId>accumulo</artifactId>
   <packaging>pom</packaging>
@@ -135,7 +136,7 @@
             <include>web/**</include>
             <include>randomwalk/**</include>
             <include>*.*</include>
-	           <include>**/META-INF/*</include>
+            <include>**/META-INF/*</include>
           </includes>
         </configuration>
       </plugin>
@@ -197,7 +198,7 @@
           <projversion>${project.version}</projversion>
           <summary>Apache Accumulo BigTable clone</summary>
           <description>
-            Apache Accumulo is a large distributed structured store based on 
+            Apache Accumulo is a large distributed structured store based on
             Google's BigTable design.
           </description>
           <copyright>2011 The Apache Software Foundation.</copyright>
@@ -344,7 +345,7 @@
                   <type>file</type>
                   <mapper>
                     <type>perm</type>
-                  <prefix>/usr/lib/accumulo</prefix>
+                    <prefix>/usr/lib/accumulo</prefix>
                   </mapper>
                 </data>
                 <data>
@@ -352,7 +353,7 @@
                   <type>file</type>
                   <mapper>
                     <type>perm</type>
-                  <prefix>/usr/lib/accumulo</prefix>
+                    <prefix>/usr/lib/accumulo</prefix>
                   </mapper>
                 </data>
                 <data>
@@ -360,7 +361,7 @@
                   <type>file</type>
                   <mapper>
                     <type>perm</type>
-                  <prefix>/usr/lib/accumulo</prefix>
+                    <prefix>/usr/lib/accumulo</prefix>
                   </mapper>
                 </data>
                 <data>
@@ -368,7 +369,7 @@
                   <type>file</type>
                   <mapper>
                     <type>perm</type>
-                  <prefix>/usr/lib/accumulo</prefix>
+                    <prefix>/usr/lib/accumulo</prefix>
                   </mapper>
                 </data>
                 <data>
@@ -512,11 +513,37 @@
                 </pluginExecution>
                 <pluginExecution>
                   <pluginExecutionFilter>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-remote-resources-plugin</artifactId>
+                    <versionRange>[1.0,)</versionRange>
+                    <goals>
+                      <goal>process</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
                     <versionRange>[1.1.1,)</versionRange>
                     <goals>
                       <goal>exec</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <versionRange>[1.0,)</versionRange>
+                    <goals>
+                      <goal>enforce</goal>
                     </goals>
                   </pluginExecutionFilter>
                   <action>
@@ -762,11 +789,11 @@
         <artifactId>accumulo-server</artifactId>
         <version>${project.version}</version>
       </dependency>
-    <dependency>
+      <dependency>
         <groupId>org.apache.accumulo</groupId>
         <artifactId>accumulo-minicluster</artifactId>
         <version>${project.version}</version>
-    </dependency>
+      </dependency>
 
       <!-- additional dependencies we need to provide -->
       <dependency>
