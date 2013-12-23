@@ -30,6 +30,19 @@
   <version>1.4.3-cdh4.3.0</version>
   <name>accumulo</name>
 
+  <distributionManagement>
+    <repository>
+      <id>cdh.releases.repo</id>
+      <url>http://maven.jenkins.cloudera.com:8081/artifactory/cdh-staging-local</url>
+      <name>CDH Releases Repository</name>
+    </repository>
+    <snapshotRepository>
+      <id>cdh.snapshots.repo</id>
+      <url>http://maven.jenkins.cloudera.com:8081/artifactory/cdh-snapshot-local</url>
+      <name>CDH Snapshots Repository</name>
+    </snapshotRepository>
+  </distributionManagement>
+
   <modules>
     <module>src/trace</module>
     <module>src/core</module>
