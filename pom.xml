@@ -18,16 +18,17 @@
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>10</version>
+    <groupId>com.cloudera.cdh</groupId>
+    <artifactId>cdh-root</artifactId>
+    <version>4.5.0</version>
+    <relativePath></relativePath><!-- no parent resolution -->
   </parent>
   
   
   <groupId>org.apache.accumulo</groupId>
   <artifactId>accumulo</artifactId>
   <packaging>pom</packaging>
-  <version>1.4.4</version>
+  <version>1.4.4-cdh4.5.0</version>
   <name>accumulo</name>
 
   <modules>
@@ -675,9 +676,9 @@
         </property>
       </activation>
       <properties>
-        <slf4j.version>1.6.1</slf4j.version>
-        <hadoop.version>2.0.2-alpha</hadoop.version>
-        <avro.version>1.5.3</avro.version>
+        <slf4j.version>1.7.5</slf4j.version>
+        <hadoop.version>${cdh.mr1.version}</hadoop.version>
+        <avro.version>${cdh.avro.version}</avro.version>
       </properties>
       <dependencyManagement>
         <dependencies>
@@ -863,10 +864,20 @@
   <properties>
     <targetJdk>1.6</targetJdk>
     <!-- overwritten in profiles hadoop-1.0 or hadoop-2.0 -->
-    <hadoop.version>1.0.4</hadoop.version>
+    <hadoop.version>${cdh.mr1.version}</hadoop.version>
     <!-- overwritten in profiles hadoop-1.0 or hadoop-2.0 -->
-    <slf4j.version>1.4.3</slf4j.version>
-    <zookeeper.version>3.3.1</zookeeper.version>
+    <slf4j.version>1.7.5</slf4j.version>
+    <zookeeper.version>${cdh.zookeeper.version}</zookeeper.version>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>cdh.releases.repo</id>
+      <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+      <name>Cloudera Releases Repositories</name>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>
