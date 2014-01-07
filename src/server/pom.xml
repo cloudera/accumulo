@@ -120,17 +120,16 @@
       <properties>
         <!-- Denotes intention and allows the enforcer plugin to pass when
              the user is relying on default behavior; won't work to activate profile -->
-        <hadoop.profile>1</hadoop.profile>
+        <hadoop.profile>2</hadoop.profile>
       </properties>
       <dependencies>
         <dependency>
           <groupId>org.apache.hadoop</groupId>
-          <artifactId>hadoop-core</artifactId>
+          <artifactId>hadoop-client</artifactId>
         </dependency>
       </dependencies>
     </profile>
     <!-- profile for building against Hadoop 1.x
-     XXX Since this is the default, make sure to sync hadoop-default when changing.
     Activate using: mvn -Dhadoop.profile=1 -->
     <profile>
       <id>hadoop-1</id>
@@ -148,6 +147,7 @@
       </dependencies>
     </profile>
     <!-- profile for building against Hadoop 2.x
+     XXX Since this is the default, make sure to sync hadoop-default when changing.
     Activate using: mvn -Dhadoop.profile=2 -->
     <profile>
       <id>hadoop-2</id>
