@@ -105,10 +105,10 @@
     $ACCUMULO_HOME/src/examples/target/classes/,
 	$ACCUMULO_HOME/lib/[^.].$ACCUMULO_VERSION.jar,
 	$ACCUMULO_HOME/lib/[^.].*.jar,
-	$ZOOKEEPER_HOME/zookeeper[^.].*.jar,
+	$ZOOKEEPER_HOME/zookeeper[^.].*-[0-9].*.jar,
 	$HADOOP_CONF_DIR,
-	$HADOOP_CLIENT_HOME/[^.].*.jar,
-        $HADOOP_MAPRED_HOME/[^.].*.jar,
+	$HADOOP_CLIENT_HOME/[^.].*-[0-9].*.jar,
+        $HADOOP_MAPRED_HOME/[^.].*-[0-9].*.jar,
 	$HADOOP_MAPRED_HOME/lib/[^.].*.jar,
       </value>
       <description>Classpaths that accumulo checks for updates and class files.
