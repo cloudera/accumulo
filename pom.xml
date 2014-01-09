@@ -992,6 +992,7 @@
     <!-- overwritten in profiles hadoop-1 or hadoop-2 -->
     <slf4j.version>1.7.5</slf4j.version>
     <zookeeper.version>${cdh.zookeeper.version}</zookeeper.version>
+    <mavanagaiata.skip>true</mavanagaiata.skip>
   </properties>
 
   <repositories>
