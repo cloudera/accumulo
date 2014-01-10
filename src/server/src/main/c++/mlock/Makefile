@@ -19,7 +19,7 @@ HDRS=$(wildcard *.h) org_apache_accumulo_server_tabletserver_$(LIB).h
 CXX=g++
 
 ifeq ($(shell uname),Linux)
-LIBS:= lib$(LIB)-Linux-amd64-64.so lib$(LIB)-Linux-i386-32.so
+LIBS:= lib$(LIB)-Linux-amd64-64.so
 CXXFLAGS=-g -fPIC -shared -O2 -fno-omit-frame-pointer -fno-strict-aliasing -Wall  -I$(JAVA_HOME)/include/linux -I$(JAVA_HOME)/include
 endif
 
