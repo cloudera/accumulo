@@ -40,7 +40,6 @@ else
 fi
 
 test -z "$HADOOP_CLIENT_HOME"    && export HADOOP_CLIENT_HOME=/usr/lib/hadoop/client-0.20
-test -z "$HADOOP_MAPRED_HOME"    && export HADOOP_MAPRED_HOME=/usr/lib/hadoop-0.20-mapreduce
 test -z "$HADOOP_CONF_DIR"       && export HADOOP_CONF_DIR="$HADOOP_PREFIX/etc/hadoop"
 
 test -z "$ZOOKEEPER_HOME"        && export ZOOKEEPER_HOME=/usr/lib/zookeeper
