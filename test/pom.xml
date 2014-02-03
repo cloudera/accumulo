@@ -20,7 +20,7 @@
   <parent>
     <groupId>org.apache.accumulo</groupId>
     <artifactId>accumulo-project</artifactId>
-    <version>1.6.0</version>
+    <version>1.6.0-cdh4.6.0-SNAPSHOT</version>
   </parent>
   <artifactId>accumulo-test</artifactId>
   <name>Testing</name>
@@ -283,24 +283,6 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.apache.hadoop</groupId>
-          <artifactId>hadoop-distcp</artifactId>
-          <scope>test</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-    <!-- profile for building against Hadoop 1.x
-    Activate using: mvn -Dhadoop.profile=1 -->
-    <profile>
-      <id>hadoop-1</id>
-      <activation>
-        <property>
-          <name>hadoop.profile</name>
-          <value>1</value>
-        </property>
-      </activation>
-      <dependencies>
-        <dependency>
           <groupId>commons-httpclient</groupId>
           <artifactId>commons-httpclient</artifactId>
           <scope>test</scope>
@@ -312,18 +294,20 @@
         </dependency>
       </dependencies>
     </profile>
-    <!-- profile for building against Hadoop 2.x
-     XXX Since this is the default, make sure to sync hadoop-default when changing.
-    Activate using: mvn -Dhadoop.profile=2 -->
     <profile>
-      <id>hadoop-2</id>
+      <id>cdh4-yarn</id>
       <activation>
         <property>
           <name>hadoop.profile</name>
-          <value>2</value>
+          <value>cdh4-yarn</value>
         </property>
       </activation>
       <dependencies>
+        <dependency>
+          <groupId>commons-httpclient</groupId>
+          <artifactId>commons-httpclient</artifactId>
+          <scope>test</scope>
+        </dependency>
         <dependency>
           <groupId>org.apache.hadoop</groupId>
           <artifactId>hadoop-distcp</artifactId>
