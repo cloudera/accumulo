@@ -1343,6 +1343,8 @@ public class Tablet {
     tabletResources.setTablet(this, acuTableConf);
     if (!logEntries.isEmpty()) {
       log.info("Starting Write-Ahead Log recovery for " + this.extent);
+      // count[0] = entries used on tablet
+      // count[1] = track max time from walog entries wihtout timestamps
       final long[] count = new long[2];
       final CommitSession commitSession = tabletMemory.getCommitSession();
       count[1] = Long.MIN_VALUE;
@@ -1374,6 +1376,7 @@ public class Tablet {
         commitSession.updateMaxCommittedTime(tabletTime.getTime());
 
         if (count[0] == 0) {
+          log.debug("No replayed mutations applied, removing unused entries for " + extent);
           MetadataTableUtil.removeUnusedWALEntries(extent, logEntries, tabletServer.getLock());
           logEntries.clear();
         }
@@ -1389,7 +1392,7 @@ public class Tablet {
       currentLogs = new HashSet<DfsLogger>();
       for (LogEntry logEntry : logEntries) {
         for (String log : logEntry.logSet) {
-          currentLogs.add(new DfsLogger(tabletServer.getServerConfig(), log));
+          currentLogs.add(new DfsLogger(tabletServer.getServerConfig(), log, logEntry.getColumnQualifier().toString()));
         }
       }
 
@@ -3647,12 +3650,12 @@ public class Tablet {
 
       for (DfsLogger logger : otherLogs) {
         otherLogsCopy.add(logger.toString());
-        doomed.add(logger.toString());
+        doomed.add(logger.getMeta());
       }
 
       for (DfsLogger logger : currentLogs) {
         currentLogsCopy.add(logger.toString());
-        doomed.remove(logger.toString());
+        doomed.remove(logger.getMeta());
       }
 
       otherLogs = Collections.emptySet();
@@ -3668,6 +3671,10 @@ public class Tablet {
 
     for (String logger : currentLogsCopy) {
       log.debug("Logs for current memory: " + getExtent() + " " + logger);
+    }
+
+    for (String logger : doomed) {
+      log.debug("Logs to be destroyed: " + getExtent() + " " + logger);
     }
 
     return doomed;
