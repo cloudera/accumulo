@@ -56,8 +56,6 @@
         <exclude>${groupId}:${artifactId}-minicluster</exclude>
         <exclude>com.google.guava:guava</exclude>
         <exclude>org.apache.commons:commons-vfs2</exclude>
-        <!-- Only needed for later Hadoop versions -->
-        <exclude>org.apache.commons:commons-math</exclude>
       </excludes>
     </dependencySet>
     <dependencySet>
