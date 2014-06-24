@@ -99,13 +99,14 @@
     <property>
       <name>general.classpaths</name>
       <value>
-	$ACCUMULO_HOME/lib/[^.].*.jar,
-	$ZOOKEEPER_HOME/zookeeper[^.].*-[0-9].*.jar,
-	$HADOOP_CONF_DIR,
-        $HADOOP_CLIENT_HOME/[^.].*-[0-9cdha.]*.jar,
+        $ACCUMULO_HOME/lib/[^.].*.jar,
+        $HADOOP_CONF_DIR,
+        $HADOOP_CLIENT_HOME/[^.](?!lf4j-log4j|uava).*-[0-9a.]*.jar,
+        $HADOOP_CLIENT_HOME/slf4j-log4j12.jar,
+        $HADOOP_CLIENT_HOME/[^.](?!ookeeper).*-[0-9.]*(?:-[^-]*)?-cdh.*.jar,
+        $ZOOKEEPER_HOME/zookeeper.*-[0-9].*.jar,
       </value>
       <description>Classpaths that accumulo checks for updates and class files.
-      When using the Security Manager, please remove the ".../target/classes/" values.
       </description>
     </property>
 
