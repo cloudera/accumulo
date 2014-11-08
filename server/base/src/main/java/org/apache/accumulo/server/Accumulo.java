@@ -22,11 +22,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.apache.accumulo.core.Constants;
 import org.apache.accumulo.core.client.AccumuloException;
+import org.apache.accumulo.core.conf.AccumuloConfiguration;
 import org.apache.accumulo.core.conf.Property;
 import org.apache.accumulo.core.trace.DistributedTrace;
 import org.apache.accumulo.core.util.AddressUtil;
@@ -34,8 +36,8 @@ import org.apache.accumulo.core.util.UtilWaitThread;
 import org.apache.accumulo.core.util.Version;
 import org.apache.accumulo.core.volume.Volume;
 import org.apache.accumulo.core.zookeeper.ZooUtil;
-import org.apache.accumulo.fate.ReadOnlyTStore;
 import org.apache.accumulo.fate.ReadOnlyStore;
+import org.apache.accumulo.fate.ReadOnlyTStore;
 import org.apache.accumulo.fate.ZooStore;
 import org.apache.accumulo.server.client.HdfsZooInstance;
 import org.apache.accumulo.server.conf.ServerConfiguration;
@@ -144,7 +146,8 @@ public class Accumulo {
   }
 
   public static void init(VolumeManager fs, ServerConfiguration config, String application) throws UnknownHostException {
-    
+    final AccumuloConfiguration conf = config.getConfiguration();
+
     System.setProperty("org.apache.accumulo.core.application", application);
     
     if (System.getenv("ACCUMULO_LOG_DIR") != null)
@@ -194,6 +197,15 @@ public class Accumulo {
     }
     
     monitorSwappiness();
+
+    // Encourage users to configure TLS
+    final String SSL = "SSL";
+    for (Property sslProtocolProperty : Arrays.asList(Property.RPC_SSL_CLIENT_PROTOCOL, Property.RPC_SSL_ENABLED_PROTOCOLS)) {
+      String value = conf.get(sslProtocolProperty);
+      if (value.contains(SSL)) {
+        log.warn("It is recommended that " + sslProtocolProperty + " only allow TLS");
+      }
+    }
   }
   
   /**
