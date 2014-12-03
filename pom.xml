@@ -356,7 +356,7 @@
       <dependency>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty</artifactId>
-        <version>6.1.26</version>
+        <version>6.1.26.cloudera.4</version>
       </dependency>
       <dependency>
         <groupId>org.powermock</groupId>
