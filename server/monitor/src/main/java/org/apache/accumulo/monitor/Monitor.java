@@ -439,8 +439,6 @@ public class Monitor {
     server.addServlet(Summary.class, "/trace/summary");
     server.addServlet(ListType.class, "/trace/listType");
     server.addServlet(ShowTrace.class, "/trace/show");
-    if (server.isUsingSsl())
-      server.addServlet(ShellServlet.class, "/shell");
     server.start();
 
     try {
