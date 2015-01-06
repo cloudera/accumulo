@@ -477,8 +477,6 @@ public class Monitor {
     server.addServlet(ListType.class, "/trace/listType");
     server.addServlet(ShowTrace.class, "/trace/show");
     server.addServlet(ReplicationServlet.class, "/replication");
-    if (server.isUsingSsl())
-      server.addServlet(ShellServlet.class, "/shell");
     server.start();
 
     try {
