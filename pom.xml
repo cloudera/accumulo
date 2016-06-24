@@ -18,13 +18,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>18</version>
+    <groupId>com.cloudera.cdh</groupId>
+    <artifactId>cdh-root</artifactId>
+    <version>5.5.0</version>
   </parent>
   <groupId>org.apache.accumulo</groupId>
   <artifactId>accumulo-project</artifactId>
-  <version>1.7.2</version>
+  <version>1.7.2-cdh5.5.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Apache Accumulo Project</name>
   <description>Apache Accumulo is a sorted, distributed key/value store based
@@ -103,7 +103,7 @@
   <scm>
     <connection>scm:git:git://git.apache.org/accumulo.git</connection>
     <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/accumulo.git</developerConnection>
-    <tag>rel/1.7.2</tag>
+    <tag>${project.version}</tag>
     <url>https://git-wip-us.apache.org/repos/asf?p=accumulo.git</url>
   </scm>
   <issueManagement>
@@ -129,27 +129,29 @@
     <!-- surefire/failsafe plugin option -->
     <forkCount>1</forkCount>
     <!-- overwritten in hadoop profiles -->
-    <hadoop.version>2.2.0</hadoop.version>
+    <hadoop.version>${cdh.hadoop.version}</hadoop.version>
     <htrace.version>3.1.0-incubating</htrace.version>
     <httpclient.version>3.1</httpclient.version>
     <jetty.version>9.1.5.v20140505</jetty.version>
+    <mavanagaiata.skip>true</mavanagaiata.skip>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <!-- the maven-release-plugin makes this recommendation, due to plugin bugs -->
     <maven.min-version>3.0.5</maven.min-version>
     <!-- surefire/failsafe plugin option -->
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
-    <powermock.version>1.6.4</powermock.version>
+    <powermock.version>1.5</powermock.version>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- surefire/failsafe plugin option -->
     <reuseForks>false</reuseForks>
     <sealJars>false</sealJars>
     <!-- overwritten in hadoop profiles -->
-    <slf4j.version>1.7.5</slf4j.version>
+    <slf4j.version>${cdh.slf4j.version}</slf4j.version>
     <sourceReleaseAssemblyDescriptor>source-release-tar</sourceReleaseAssemblyDescriptor>
     <!-- Thrift version -->
     <thrift.version>0.9.1</thrift.version>
     <!-- ZooKeeper version -->
-    <zookeeper.version>3.4.6</zookeeper.version>
+    <zookeeper.version>${cdh.zookeeper.version}</zookeeper.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -366,7 +368,7 @@
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-distcp</artifactId>
-        <version>${hadoop.version}</version>
+        <version>${cdh.hadoop.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.hadoop</groupId>
@@ -510,21 +512,29 @@
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
         <artifactId>slf4j-nop</artifactId>
         <version>${slf4j.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>cdh.releases.repo</id>
+      <name>Cloudera Releases Repositories</name>
+      <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <id>cdh.snapshots.repo</id>
+      <name>Cloudera Snapshots Repositories</name>
+      <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+    </repository>
+  </repositories>
   <build>
     <pluginManagement>
       <plugins>
@@ -797,8 +807,12 @@
         <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
+          <version>0.11</version>
           <configuration>
             <excludes>
+              <exclude>cloudera/**</exclude>
+              <exclude>debian/**</exclude>
+              <exclude>.pc/**</exclude>
               <exclude>nbproject/**</exclude>
               <exclude>nb-configuration.xml</exclude>
               <exclude>nbactions.xml</exclude>
@@ -1314,9 +1328,9 @@
         </property>
       </activation>
       <properties>
-        <hadoop.version>2.2.0</hadoop.version>
+        <hadoop.version>${cdh.hadoop.version}</hadoop.version>
         <httpclient.version>3.1</httpclient.version>
-        <slf4j.version>1.7.5</slf4j.version>
+        <slf4j.version>${cdh.slf4j.version}</slf4j.version>
       </properties>
     </profile>
     <profile>
