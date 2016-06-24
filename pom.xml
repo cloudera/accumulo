@@ -665,6 +665,11 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.6</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
           <configuration>
             <arguments>-P !autoformat,thrift,assemble,docs,sunny -Dtimeout.factor=2 ${extraReleaseArgs}</arguments>
