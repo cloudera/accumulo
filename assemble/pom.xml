@@ -293,6 +293,34 @@
       </build>
     </profile>
     <profile>
+      <id>cdh-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>build-release</id>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <phase>package</phase>
+                <configuration>
+                  <appendAssemblyId>false</appendAssemblyId>
+                  <attach>true</attach>
+                  <finalName>${project.artifactId}-${project.version}</finalName>
+                  <descriptors>
+                    <descriptor>src/main/assemblies/cdh-release.xml</descriptor>
+                  </descriptors>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>make-accumulo-home</id>
       <activation>
         <!-- always activate, unless explicitly de-activated -->
