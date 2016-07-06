@@ -18,7 +18,6 @@
 <component xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/component/1.1.2 http://maven.apache.org/xsd/component-1.1.2.xsd">
   <dependencySets>
-    <!-- Dependencies that we don't want transitive inclusion because they rely on things that are provided by hadoop-client -->
     <dependencySet>
       <outputDirectory>lib</outputDirectory>
       <directoryMode>0755</directoryMode>
@@ -27,35 +26,33 @@
       <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       <useTransitiveDependencies>false</useTransitiveDependencies>
       <includes>
-        <!-- All the deps for core that aren't listed in the assembly pom appear to be in hadoop-client -->
-        <include>${groupId}:${artifactId}-core</include>
-        <!-- We don't expect this to work in a normal install, because it wants the hadoop test library for minidfscluster -->
-        <include>${groupId}:${artifactId}-minicluster</include>
-        <!-- Accumulo needs Guava 15, which is newer than the one in hadoop client -->
+        <!-- if you update this list, you should also update the assembly
+        pom.xml section which executes the maven-dependency-plugin to generate a
+        version listing for packaged artifacts -->
+        <include>${groupId}:${artifactId}-*</include>
+        <include>com.beust:jcommander</include>
         <include>com.google.guava:guava</include>
+        <include>javax.servlet:javax.servlet-api</include>
+        <include>jline:jline</include>
+        <include>org.apache.commons:commons-math</include>
         <include>org.apache.commons:commons-vfs2</include>
+        <include>org.apache.thrift:libthrift</include>
+        <include>org.eclipse.jetty:jetty-http</include>
+        <include>org.eclipse.jetty:jetty-io</include>
+        <include>org.eclipse.jetty:jetty-security</include>
+        <include>org.eclipse.jetty:jetty-server</include>
+        <include>org.eclipse.jetty:jetty-servlet</include>
+        <include>org.eclipse.jetty:jetty-util</include>
+        <include>org.apache.htrace:htrace-core</include>
+        <!-- removed from the above because they are included in hadoop-client's classpath
+        <include>com.google.code.gson:gson</include>
+        <include>com.google.protobuf:protobuf-java</include>
+        <include>org.slf4j:slf4j-api</include>
+        <include>org.slf4j:slf4j-log4j12</include>
+         -->
       </includes>
       <excludes>
         <exclude>${groupId}:${artifactId}-docs</exclude>
-      </excludes>
-    </dependencySet>
-    <!-- For everything other than the special cases above, grab all of our runtime scoped dependencies -->
-    <dependencySet>
-      <outputDirectory>lib</outputDirectory>
-      <directoryMode>0755</directoryMode>
-      <fileMode>0644</fileMode>
-      <useProjectArtifact>false</useProjectArtifact>
-      <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-      <useTransitiveDependencies>true</useTransitiveDependencies>
-      <useTransitiveFiltering>true</useTransitiveFiltering>
-      <excludes>
-        <!-- build this below -->
-        <exclude>${groupId}:${artifactId}-docs</exclude>
-        <!-- need to pull these without transitives -->
-        <exclude>${groupId}:${artifactId}-core</exclude>
-        <exclude>${groupId}:${artifactId}-minicluster</exclude>
-        <exclude>com.google.guava:guava</exclude>
-        <exclude>org.apache.commons:commons-vfs2</exclude>
       </excludes>
     </dependencySet>
     <dependencySet>
@@ -66,52 +63,50 @@
       <outputFileNameMapping>${artifactId}_user_manual.${artifact.extension}</outputFileNameMapping>
       <useTransitiveDependencies>false</useTransitiveDependencies>
       <includes>
-        <include>${groupId}:${artifactId}-docs:pdf:user-manual</include>
+        <include>${groupId}:${artifactId}-docs:html:user-manual</include>
       </includes>
     </dependencySet>
   </dependencySets>
   <fileSets>
+    <!-- Cloudera build specific -->
+    <!-- grab the patches directory -->
     <fileSet>
       <directory>../cloudera</directory>
+      <outputDirectory>cloudera</outputDirectory>
       <directoryMode>0755</directoryMode>
       <fileMode>0644</fileMode>
     </fileSet>
+    <!-- we package a copy of the source as well -->
     <fileSet>
       <directory>../</directory>
-      <outputDirectory>/src</outputDirectory>
+      <outputDirectory>src</outputDirectory>
       <directoryMode>0755</directoryMode>
       <fileMode>0644</fileMode>
       <excludes>
         <exclude>target/**</exclude>
         <exclude>**/target/**</exclude>
+        <exclude>cloudera/**</exclude>
+        <exclude>**/cloudera/**</exclude>
       </excludes>
     </fileSet>
+    <!-- /Cloudera build specific -->
     <fileSet>
-      <directory>../bin</directory>
+      <directory>bin</directory>
       <directoryMode>0755</directoryMode>
       <fileMode>0755</fileMode>
     </fileSet>
     <fileSet>
-      <directory>../lib/native</directory>
+      <directory>../examples/simple</directory>
+      <outputDirectory>examples/simple</outputDirectory>
       <directoryMode>0755</directoryMode>
       <fileMode>0644</fileMode>
       <includes>
-        <include>**/*.so</include>
-        <include>**/*.jnilib</include>
+        <include>src/main/**</include>
       </includes>
     </fileSet>
     <fileSet>
-      <directory>../server/src/main/c++</directory>
-      <directoryMode>0755</directoryMode>
-      <fileMode>0644</fileMode>
-      <excludes>
-        <exclude>**/*.so</exclude>
-        <exclude>**/*.jnilib</exclude>
-      </excludes>
-    </fileSet>
-    <fileSet>
       <directory>./</directory>
-      <outputDirectory>/lib/ext</outputDirectory>
+      <outputDirectory>lib/ext</outputDirectory>
       <directoryMode>0755</directoryMode>
       <excludes>
         <exclude>*/**</exclude>
@@ -119,7 +114,7 @@
     </fileSet>
     <fileSet>
       <directory>./</directory>
-      <outputDirectory>/logs</outputDirectory>
+      <outputDirectory>logs</outputDirectory>
       <directoryMode>0700</directoryMode>
       <excludes>
         <exclude>*/**</exclude>
@@ -127,7 +122,7 @@
     </fileSet>
     <fileSet>
       <directory>../docs/src/main/resources</directory>
-      <outputDirectory>/docs</outputDirectory>
+      <outputDirectory>docs</outputDirectory>
       <directoryMode>0755</directoryMode>
       <fileMode>0644</fileMode>
       <includes>
@@ -138,7 +133,7 @@
     </fileSet>
     <fileSet>
       <directory>../docs/target</directory>
-      <outputDirectory>/docs</outputDirectory>
+      <outputDirectory>docs</outputDirectory>
       <directoryMode>0755</directoryMode>
       <fileMode>0644</fileMode>
       <includes>
@@ -146,26 +141,47 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>../conf</directory>
+      <directory>conf</directory>
       <directoryMode>0755</directoryMode>
       <fileMode>0755</fileMode>
       <includes>
-        <include>examples/**/*.sh</include>
-        <include>templates/*.sh</include>
+        <include>**/*.sh</include>
       </includes>
     </fileSet>
     <fileSet>
-      <directory>../conf</directory>
+      <directory>conf</directory>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0644</fileMode>
+      <excludes>
+        <exclude>**/*.sh</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <!-- preserve old behavior of extra copy in conf -->
+      <directory>conf/templates</directory>
+      <outputDirectory>conf</outputDirectory>
       <directoryMode>0755</directoryMode>
       <fileMode>0644</fileMode>
       <includes>
         <include>accumulo.policy.example</include>
-        <include>examples/**</include>
-        <include>templates/**</include>
       </includes>
+    </fileSet>
+    <fileSet>
+      <directory>target/example-configs</directory>
+      <outputDirectory>conf/examples</outputDirectory>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0755</fileMode>
+      <includes>
+        <include>**/*.sh</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>target/example-configs</directory>
+      <outputDirectory>conf/examples</outputDirectory>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0644</fileMode>
       <excludes>
-        <exclude>examples/**/*.sh</exclude>
-        <exclude>templates/*.sh</exclude>
+        <exclude>**/*.sh</exclude>
       </excludes>
     </fileSet>
     <fileSet>
@@ -256,11 +272,30 @@
       <directory>../</directory>
       <fileMode>0644</fileMode>
       <includes>
-        <include>CHANGES</include>
-        <include>LICENSE</include>
-        <include>NOTICE</include>
-        <include>README</include>
+        <include>README.md</include>
+        <include>INSTALL.md</include>
+        <include>BUILD.md</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>target</directory>
+      <outputDirectory>lib</outputDirectory>
+      <fileMode>0644</fileMode>
+      <includes>
+        <include>VERSIONS</include>
       </includes>
     </fileSet>
   </fileSets>
+  <files>
+    <file>
+      <source>bin-NOTICE</source>
+      <destName>NOTICE</destName>
+      <fileMode>0644</fileMode>
+    </file>
+    <file>
+      <source>bin-LICENSE</source>
+      <destName>LICENSE</destName>
+      <fileMode>0644</fileMode>
+    </file>
+  </files>
 </component>
