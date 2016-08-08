@@ -101,8 +101,7 @@
       <value>
         $ACCUMULO_HOME/lib/[^.].*.jar,
         $HADOOP_CONF_DIR,
-        $HADOOP_CLIENT_HOME/[^.](?!lf4j-log4j|uava|vro).*-[0-9a.]*.jar,
-        $HADOOP_CLIENT_HOME/slf4j-log4j12.jar,
+        $HADOOP_CLIENT_HOME/[^.](?!lf4j-log4j|lf4j-api|og4j|uava|vro).*-[0-9a.]*.jar,
         $HADOOP_CLIENT_HOME/avro.jar,
         $HADOOP_CLIENT_HOME/htrace-core4.jar,
         $HADOOP_CLIENT_HOME/[^.](?!ookeeper).*-[0-9.]*(?:-[^-]*)?-cdh.*.jar,
