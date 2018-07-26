@@ -159,12 +159,17 @@
         </property>
       </activation>
       <properties>
-        <hadoop.profile>2</hadoop.profile>
+        <hadoop.profile>3</hadoop.profile>
       </properties>
       <dependencies>
         <dependency>
           <groupId>org.apache.hadoop</groupId>
-          <artifactId>hadoop-client</artifactId>
+          <artifactId>hadoop-client-api</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.apache.hadoop</groupId>
+          <artifactId>hadoop-client-runtime</artifactId>
+          <scope>runtime</scope>
         </dependency>
       </dependencies>
     </profile>
