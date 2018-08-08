@@ -27,7 +27,7 @@ script=$( basename "$SOURCE" )
 # Stop: Resolve Script Directory
 
 
-lib=${bin}/../lib
+lib=${bin}/../../lib
 native_tarball=${lib}/accumulo-native.tar.gz
 final_native_target="${lib}/native"
 
