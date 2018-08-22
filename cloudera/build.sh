@@ -62,11 +62,28 @@ export OFFICIAL=${OFFICIAL:false}
 export BUILD_TIME=$BUILD_TIME
 export GIT_HASH=$GIT_HASH
 
+# getting cdh version from pom.xml
+# N.B. this works because we're relying on a released version of CDH
+# for the parent (so we can set appropriate versions for CDH components)
+# if we switch to developing in concert with a CDH release, we'll
+# need to do something like grep the pom to avoid failure when the peer
+# cdh directory isn't already on the needed branch.
+if CDH_VERSION=$(mvn -q -Dexec.executable='echo' -Dexec.args='${project.parent.version}' \
+                     --non-recursive exec:exec) && \
+   [ -n "${CDH_VERSION}" ]; then
+  big_console_header "Using tooling and component versions from CDH_VERSION: ${CDH_VERSION}"
+else
+  echo "Couldn't get CDH_VERSION" >&2
+  exit 1
+fi
+export CDH_VERSION
 # checking out accumulo in cdh repository
 (
 	cd ../cdh
 	git fetch
-	git checkout accumulocdh6
+        # TODO can we use the "give me the branch name for this version" code from
+        # CDH/cdh's HEAD branch?
+	git checkout "cdh${CDH_VERSION}"
 )
 
 # getting project version from pom.xml (1.9.2-cdh6.0.x-SNAPSHOT -> 1.9.2)
@@ -90,7 +107,7 @@ cat > cloudera/cdh_version.properties << EOT
 version=$VERSION
 git.hash=$GIT_HASH
 cloudera.build-branch=$BRANCH_NAME
-cloudera.pkg.version=accumulo${VERSION}-cdh6.0.0
+cloudera.pkg.version=accumulo${VERSION}-cdh${CDH_VERSION}
 cloudera.pkg.release=1.accumulo$VERSION.p0.$REVNO
 cloudera.pkg.name=accumulo
 cloudera.cdh.release=NA

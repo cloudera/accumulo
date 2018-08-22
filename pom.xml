@@ -24,6 +24,7 @@
     <groupId>com.cloudera.cdh</groupId>
     <artifactId>cdh-root</artifactId>
     <version>6.0.0</version>
+    <relativePath>../cdh</relativePath>
   </parent>
   <groupId>org.apache.accumulo</groupId>
   <artifactId>accumulo-project</artifactId>
