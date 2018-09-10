@@ -77,13 +77,14 @@ else
   exit 1
 fi
 export CDH_VERSION
+
 # checking out accumulo in cdh repository
 (
 	cd ../cdh
 	git fetch
         # TODO can we use the "give me the branch name for this version" code from
         # CDH/cdh's HEAD branch?
-	git checkout "cdh${CDH_VERSION}"
+	git checkout "origin/cdh${CDH_VERSION}"
 )
 
 # getting project version from pom.xml (1.9.2-cdh6.0.x-SNAPSHOT -> 1.9.2)

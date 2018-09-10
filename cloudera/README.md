@@ -62,5 +62,5 @@ Main steps:
 3. Generate `parcel.manifest`.
 4. Generate `build.json`.
 5. Upload it to S3.
-6. Tag the build build.
+6. Tag the build.
 
