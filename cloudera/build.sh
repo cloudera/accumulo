@@ -195,7 +195,7 @@ docker run \
 	$DOCKER_IMG
 
 # dump s3 output
-URL="http://cloudera-build-us-west-1.vpc.cloudera.com/s3/build/$GBN/index.html"
+URL="http://cloudera-build-us-west-1.vpc.cloudera.com/s3/build/$GBN/"
 
 big_console_header "$URL"
 
