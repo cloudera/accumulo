@@ -1,3 +1,7 @@
+# Run from Jenkins
+
+https://master-01.jenkins.cloudera.com/job/Accumulo-Build-Branch/
+
 # Build process
 
 The build process consists of 5 main steps:
