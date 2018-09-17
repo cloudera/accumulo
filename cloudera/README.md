@@ -52,8 +52,7 @@ Main steps:
 4. Translate the maven generated layout to parcel layout.
 5. Add native libraries.
 6. Generate `meta/parcel.json`.
-7. Generate `meta/permissions.json`.
-8. Create tarball and leave it under `build-parcel`.
+7. Create tarball and leave it under `build-parcel`.
 
 # post_build.sh
 

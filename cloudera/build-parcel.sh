@@ -158,12 +158,6 @@ cat > "$PARCEL_DIR/meta/parcel.json" << EOT
 }
 EOT
 
-# generating permissions.json
-cat > "$PARCEL_DIR/meta/permissions.json" << EOT
-{
-}
-EOT
-
 # creating parcel tarball
 (
 	cd "$OUTPUT_DIR"

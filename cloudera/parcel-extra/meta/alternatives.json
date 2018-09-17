@@ -1,0 +1,20 @@
+{
+  "accumulo": {
+    "destination": "/usr/bin/accumulo",
+    "source": "bin/accumulo",
+    "priority": 10,
+    "isDirectory": false
+  },
+  "accumulo-tool": {
+    "destination": "/usr/bin/accumulo-tool",
+    "source": "bin/accumulo-tool",
+    "priority": 10,
+    "isDirectory": false
+  },
+  "accumulo-conf": {
+    "destination": "/etc/accumulo/conf",
+    "source": "etc/accumulo/conf.dist",
+    "priority": 10,
+    "isDirectory": true
+  }
+}
