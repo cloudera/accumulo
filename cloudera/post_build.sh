@@ -34,6 +34,7 @@ $VIRTUAL_DIR/bin/pip install -r requirements.txt
 $VIRTUAL_DIR/bin/python setup.py install
 
 PRODUCT_NAME=accumuloc6
+COMPONENT_NAME=accumulo
 
 # populate parcels and generate manifest.json
 mkdir -p /accumulo/output-repo/parcels
@@ -55,7 +56,7 @@ $VIRTUAL_DIR/bin/buildjson \
 	-os redhat6 -os redhat7 -os sles12 -os ubuntu1604 \
 	--build-environment $BUILD_URL ${BUILD_JSON_EXIPIRATION} \
 	--user ${user} \
-        add_parcels --product-parcels ${PRODUCT_NAME} parcels
+        add_parcels --product-parcels ${COMPONENT_NAME} parcels
 #        add_os_repo --product-base ${PRODUCT_NAME} . add_source
 
 # upload it to s3
