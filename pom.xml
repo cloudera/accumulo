@@ -409,7 +409,7 @@
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-distcp</artifactId>
-        <version>${cdh.hadoop.version}</version>
+        <version>${hadoop.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.hadoop</groupId>
@@ -419,12 +419,8 @@
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-minikdc</artifactId>
-        <!-- Specifically depend on this version of minikdc to avoid having
-           to increase out normal hadoop dependency; minikdc not available prior
-           to 2.3.0 -->
-        <?SORTPOM IGNORE?>
-        <version>2.3.0</version><!--$NO-MVN-MAN-VER$-->
-        <?SORTPOM RESUME?>
+        <!-- CDH specific change, since minimum hadoop version has minikdc -->
+        <version>${hadoop.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.hadoop</groupId>
