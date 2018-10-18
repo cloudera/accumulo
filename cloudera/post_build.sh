@@ -33,7 +33,7 @@ $VIRTUAL_DIR/bin/pip install --upgrade setuptools==33.1.1
 $VIRTUAL_DIR/bin/pip install -r requirements.txt
 $VIRTUAL_DIR/bin/python setup.py install
 
-PRODUCT_NAME=accumuloc6
+PRODUCT_NAME=accumulo_c6
 COMPONENT_NAME=accumulo
 
 # populate parcels and generate manifest.json
