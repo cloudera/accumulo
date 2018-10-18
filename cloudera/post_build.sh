@@ -34,7 +34,7 @@ $VIRTUAL_DIR/bin/pip install -r requirements.txt
 $VIRTUAL_DIR/bin/python setup.py install
 
 PRODUCT_NAME=accumulo_c6
-COMPONENT_NAME=accumulo
+COMPONENT_NAME=accumulo_c6
 
 # populate parcels and generate manifest.json
 mkdir -p /accumulo/output-repo/parcels
