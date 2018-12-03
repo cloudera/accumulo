@@ -31,10 +31,11 @@ This file controls the whole build process of Accumulo. It can be run locally or
  2. Determine version from pom.xml (`1.9.2-cdh6.0.x-SNAPSHOT` will be `1.9.2`).
  3. Get current branch name and last commit id.
  4. Generate `cdh_version.properties` file.
- 5. Build Accumulo with `mvn package`.
- 6. Build native libraries and parcels for different platforms (`build-parcel.sh`).
- 7. Create and upload repository to S3 (`post_build.sh`).
- 8. Generate some extra artifacts for Jenkins.
+ 5. If `OFFICIAL` environment variable is `true`, removes `-SNAPSHOT` from maven versions.
+ 6. Build Accumulo with `mvn package`.
+ 7. Build native libraries and parcels for different platforms (`build-parcel.sh`).
+ 8. Create and upload repository to S3 (`post_build.sh`).
+ 9. Generate some extra artifacts for Jenkins.
 
 # build-parcel.sh
 
@@ -64,6 +65,7 @@ Main steps:
 2. Generate the contents of `parcels`.
 3. Generate `parcel.manifest`.
 4. Generate `build.json`.
-5. Upload it to S3.
-6. Tag the build.
+5. Copy `maven-repository` and `csd`.
+6. Upload it to S3.
+7. Tag the build.
 

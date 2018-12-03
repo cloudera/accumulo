@@ -36,10 +36,26 @@ $VIRTUAL_DIR/bin/python setup.py install
 PRODUCT_NAME=accumulo_c6
 COMPONENT_NAME=accumulo_c6
 
+mkdir -p /accumulo/output-repo
+cd /accumulo/output-repo
+
+S3_ROOT=accumulo6/${VERSION}
+S3_PARCELS=${S3_ROOT}/parcels
+S3_CSD=${S3_ROOT}/csd
+S3_MAVEN=${S3_ROOT}/maven-repository
+
 # populate parcels and generate manifest.json
-mkdir -p /accumulo/output-repo/parcels
-cp -v /accumulo/build-parcel/ACCUMULO-*.parcel /accumulo/output-repo/parcels
-$VIRTUAL_DIR/bin/parcelmanifest /accumulo/output-repo/parcels
+mkdir -p ${S3_PARCELS} ${S3_CSD} ${S3_MAVEN}
+cp -v /accumulo/build-parcel/ACCUMULO-*.parcel ${S3_PARCELS}
+$VIRTUAL_DIR/bin/parcelmanifest ${S3_PARCELS}
+
+# copying maven artifacts
+mkdir -p ${S3_MAVEN}/org/apache
+cp -a /accumulo/assemble/target/accumulo-${VERSION}-*-repository/org/apache/accumulo ${S3_MAVEN}/org/apache
+
+# getting csd
+CM_GBN=$(curl -s 'http://builddb.infra.cloudera.com/query?product=cm&user=jenkins&version=6.x.0&tag=official')
+curl -s "http://cloudera-build-us-west-1.vpc.cloudera.com/s3/build/${CM_GBN}/cm6/6.x.0/generic/maven/com/cloudera/csd/ACCUMULO_C6/6.x.0/ACCUMULO_C6-6.x.0.jar" -o ${S3_CSD}/ACCUMULO_C6-6.0.0.jar
 
 # create build.json
 user=jenkins
@@ -49,15 +65,14 @@ if [ -z $RELEASE_CANDIDATE ]; then
 	BUILD_JSON_EXIPIRATION="--expiry ${EXPIRATION}"
 fi
 
-cd /accumulo/output-repo/
-
 $VIRTUAL_DIR/bin/buildjson \
 	-o build.json -p ${PRODUCT_NAME} --version ${VERSION} --gbn $GBN \
 	-os redhat6 -os redhat7 -os sles12 -os ubuntu1604 \
 	--build-environment $BUILD_URL ${BUILD_JSON_EXIPIRATION} \
 	--user ${user} \
-        add_parcels --product-parcels ${COMPONENT_NAME} parcels
-#        add_os_repo --product-base ${PRODUCT_NAME} . add_source
+        add_parcels --product-parcels ${COMPONENT_NAME} ${S3_PARCELS} \
+	add_csd --files ${COMPONENT_NAME} ${S3_CSD}/*.jar \
+	add_maven --product-base ${COMPONENT_NAME} ${S3_MAVEN}
 
 # upload it to s3
 $VIRTUAL_DIR/bin/upload s3 \

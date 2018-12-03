@@ -42,7 +42,8 @@ fi
 # removing previous builds
 big_console_header "Removing previous artifacts"
 
-rm -rf build-parcel output-repo gbn_build_*
+rm -rf build-parcel output-repo gbn_build_* cloudera/cdh_version.properties
+mvn versions:revert
 
 # Obtain the creds to get s3creds.
 wget http://github.mtv.cloudera.com/QE/deploy/raw/master/cdep/data/id_rsa -O /tmp/id_rsa_systest
@@ -115,10 +116,17 @@ cloudera.cdh.release=NA
 cloudera.build.time=$BUILD_TIME
 EOT
 
+if [ "${OFFICIAL}" == "true" ]; then
+	big_console_header "It is an official release, removing -SNAPSHOT"
+
+	mvn versions:set -DremoveSnapshot
+fi
+
 # building accumulo
 big_console_header "Building accumulo"
 
 mvn clean -DskipTests -Dfindbugs.skip package
+mvn -f assemble/pom.xml assembly:single -Ddescriptor=cloudera/maven-repository.xml
 
 build_native() {
 	local image="$1"
