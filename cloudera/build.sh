@@ -125,7 +125,7 @@ fi
 # building accumulo
 big_console_header "Building accumulo"
 
-mvn clean -DskipTests -Dfindbugs.skip package
+mvn clean -DskipTests -Dfindbugs.skip install
 mvn -f assemble/pom.xml assembly:single -Ddescriptor=cloudera/maven-repository.xml
 
 build_native() {
