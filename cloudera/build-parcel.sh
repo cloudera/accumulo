@@ -6,15 +6,20 @@
 # the native bindings (libaccumulo.so).
 
 # Environment variables:
-# VERSION= version of accumulo (e.g. 1.9.2)
+# ACCUMULO_VERSION= version of accumulo (e.g. 1.9.2)
+# CDH_VERSION= version of cdh (e.g. 6.0.0)
 # GBN= the build number (e.g. 123456)
 # DISTRO= the distribution name, optional (e.g. el7)
 
 set -e
 set -x
 
-if [ -z "$VERSION" ]; then
-	echo "VERSION is not defined."
+if [ -z "$ACCUMULO_VERSION" ]; then
+	echo "ACCUMULO_VERSION is not defined."
+	exit 1
+fi
+if [ -z "$CDH_VERSION" ]; then
+	echo "CDH_VERSION is not defined."
 	exit 1
 fi
 if [ -z "$GBN" ]; then
@@ -22,7 +27,7 @@ if [ -z "$GBN" ]; then
 	exit 1
 fi
 
-VERSION_FULL="${VERSION}-1.ACCUMULO6.0.0.p0.${GBN}"
+VERSION_FULL="${ACCUMULO_VERSION}-1.ACCUMULO${CDH_VERSION}.p0.${GBN}"
 
 if [ -z "$DISTRO" ]; then
 	VERSION_DISTRO="$VERSION_FULL"
@@ -33,9 +38,9 @@ else
 fi
 
 # too few versions? let's set some, too
-VERSION_PKG="${VERSION}+accumulocdh6.0.0+0"
-VERSION_COMPONENT="${VERSION}-accumulocdh6.0.0"
-VERSION_RELEASE="1.accumulocdh6.0.0.p0.${GBN}"
+VERSION_PKG="${ACCUMULO_VERSION}+accumulocdh${CDH_VERSION}+0"
+VERSION_COMPONENT="${ACCUMULO_VERSION}-accumulocdh${CDH_VERSION}"
+VERSION_RELEASE="1.accumulocdh${CDH_VERSION}.p0.${GBN}"
 
 ROOT=$(pwd)
 
@@ -50,12 +55,12 @@ rm -rf "$PARCEL_DIR" "$PARCEL_TMP" "$PARCEL_NATIVE"
 
 # unpacking the maven generated assemble tar
 mkdir -p "$PARCEL_TMP"
-tar xzf "$ROOT"/assemble/target/accumulo-${VERSION}-*-bin.tar.gz \
+tar xzf "$ROOT"/assemble/target/accumulo-${ACCUMULO_VERSION}-*-bin.tar.gz \
 	-C "$PARCEL_TMP" --strip-components=1
 
 # recompiling native libraries for the current architecture
 mkdir -p "$PARCEL_NATIVE"
-tar xzf "$ROOT"/server/native/target/accumulo-native-${VERSION}-*.tar.gz \
+tar xzf "$ROOT"/server/native/target/accumulo-native-${ACCUMULO_VERSION}-*.tar.gz \
 	-C "$PARCEL_NATIVE" --strip-components=1
 (cd "$PARCEL_NATIVE" && make)
 
@@ -96,7 +101,7 @@ cat > "$PARCEL_DIR/meta/parcel.json" << EOT
   "version": "$VERSION_FULL",
   "extraVersionInfo": {
     "fullVersion": "$VERSION_DISTRO",
-    "baseVersion": "$VERSION",
+    "baseVersion": "$ACCUMULO_VERSION",
     "patchCount": "0"
   },
   "depends": "CDH (>= 6.0), CDH (<< 7.0)",

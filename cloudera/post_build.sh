@@ -5,12 +5,16 @@
 set -x
 set -e
 
-if [ -z "${GBN}" ]; then
+if [ -z "$GBN" ]; then
     echo "GBN not defined"
     exit 1
 fi
-if [ -z "$VERSION" ]; then
-   echo "Version number not defined"
+if [ -z "$ACCUMULO_VERSION" ]; then
+   echo "ACCUMULO_VERSION is not defined"
+   exit 1
+fi
+if [ -z "$CDH_VERSION" ]; then
+   echo "CDH_VERSION is not defined"
    exit 1
 fi
 
@@ -39,7 +43,7 @@ COMPONENT_NAME=accumulo_c6
 mkdir -p /accumulo/output-repo
 cd /accumulo/output-repo
 
-S3_ROOT=accumulo6/${VERSION}
+S3_ROOT=accumulo6/${ACCUMULO_VERSION}
 S3_PARCELS=${S3_ROOT}/parcels
 S3_CSD=${S3_ROOT}/csd
 S3_MAVEN=${S3_ROOT}/maven-repository
@@ -51,11 +55,11 @@ $VIRTUAL_DIR/bin/parcelmanifest ${S3_PARCELS}
 
 # copying maven artifacts
 mkdir -p ${S3_MAVEN}/org/apache
-cp -a /accumulo/assemble/target/accumulo-${VERSION}-*-repository/org/apache/accumulo ${S3_MAVEN}/org/apache
+cp -a /accumulo/assemble/target/accumulo-${ACCUMULO_VERSION}-*-repository/org/apache/accumulo ${S3_MAVEN}/org/apache
 
 # getting csd
 CM_GBN=$(curl -s 'http://builddb.infra.cloudera.com/query?product=cm&user=jenkins&version=6.x.0&tag=official')
-curl -s "http://cloudera-build-us-west-1.vpc.cloudera.com/s3/build/${CM_GBN}/cm6/6.x.0/generic/maven/com/cloudera/csd/ACCUMULO_C6/6.x.0/ACCUMULO_C6-6.x.0.jar" -o ${S3_CSD}/ACCUMULO_C6-6.0.0.jar
+curl -s "http://cloudera-build-us-west-1.vpc.cloudera.com/s3/build/${CM_GBN}/cm6/6.x.0/generic/maven/com/cloudera/csd/ACCUMULO_C6/6.x.0/ACCUMULO_C6-6.x.0.jar" -o ${S3_CSD}/ACCUMULO_C6-${CDH_VERSION}.jar
 
 # create build.json
 user=jenkins
@@ -66,8 +70,8 @@ if [ -z $RELEASE_CANDIDATE ]; then
 fi
 
 $VIRTUAL_DIR/bin/buildjson \
-	-o build.json -p ${PRODUCT_NAME} --version ${VERSION} --gbn $GBN \
-	-os redhat6 -os redhat7 -os sles12 -os ubuntu1604 \
+	-o build.json -p ${PRODUCT_NAME} --version ${ACCUMULO_VERSION} \
+	--gbn $GBN -os redhat6 -os redhat7 -os sles12 -os ubuntu1604 \
 	--build-environment $BUILD_URL ${BUILD_JSON_EXIPIRATION} \
 	--user ${user} \
         add_parcels --product-parcels ${COMPONENT_NAME} ${S3_PARCELS} \
@@ -91,7 +95,7 @@ if [[ -n "${RELEASE_CANDIDATE}" ]]; then
 	curl "http://builddb.infra.cloudera.com/addtag?gbn=${GBN}&value=release_candidate"
 	curl "http://builddb.infra.cloudera.com/addtag?gbn=${GBN}&value=rc-${RELEASE_CANDIDATE}"
 fi
-curl "http://builddb.infra.cloudera.com/addtag?gbn=${GBN}&value=${VERSION}"
+curl "http://builddb.infra.cloudera.com/addtag?gbn=${GBN}&value=${ACCUMULO_VERSION}"
 
 echo "Tags added to the build are:"
 curl "http://builddb.infra.cloudera.com/gettags?gbn=${GBN}"

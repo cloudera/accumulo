@@ -28,7 +28,7 @@ Accumulo and CDH is checked out to the same folder.
 This file controls the whole build process of Accumulo. It can be run locally or by Jenkins. Main steps:
 
  1. Fetch GBN.
- 2. Determine version from pom.xml (`1.9.2-cdh6.0.x-SNAPSHOT` will be `1.9.2`).
+ 2. Determine versions from pom.xml (for `1.9.2-cdh6.0.0-SNAPSHOT` accumulo version  will be `1.9.2` and cdh version will be `6.0.0`).
  3. Get current branch name and last commit id.
  4. Generate `cdh_version.properties` file.
  5. If `OFFICIAL` environment variable is `true`, removes `-SNAPSHOT` from maven versions.
@@ -43,7 +43,7 @@ Builds native libraries and parcel for the current distribution. It should be ru
 
 Invocation:
 
-`VERSION=1.9.2 GBN=123456 [DISTRO=el6] build-parcel.sh`
+`ACCUMULO_VERSION=1.9.2 CDH_VERSION=6.0.0 GBN=123456 [DISTRO=el6] build-parcel.sh`
 
 Main steps:
 
