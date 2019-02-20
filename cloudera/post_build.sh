@@ -43,7 +43,7 @@ COMPONENT_NAME=accumulo_c6
 mkdir -p /accumulo/output-repo
 cd /accumulo/output-repo
 
-S3_ROOT=accumulo6/${ACCUMULO_VERSION}
+S3_ROOT=accumulo6/${CDH_VERSION}
 S3_PARCELS=${S3_ROOT}/parcels
 S3_CSD=${S3_ROOT}/csd
 S3_MAVEN=${S3_ROOT}/maven-repository
@@ -70,7 +70,7 @@ if [ -z $RELEASE_CANDIDATE ]; then
 fi
 
 $VIRTUAL_DIR/bin/buildjson \
-	-o build.json -p ${PRODUCT_NAME} --version ${ACCUMULO_VERSION} \
+	-o build.json -p ${PRODUCT_NAME} --version ${CDH_VERSION} \
 	--gbn $GBN -os redhat6 -os redhat7 -os sles12 -os ubuntu1604 \
 	--build-environment $BUILD_URL ${BUILD_JSON_EXIPIRATION} \
 	--user ${user} \
