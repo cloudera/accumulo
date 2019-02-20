@@ -154,7 +154,7 @@
     <surefire.failIfNoSpecifiedTests>false</surefire.failIfNoSpecifiedTests>
     <surefire.groups />
     <!-- Thrift version -->
-    <thrift.version>0.9.3-cloudera.1</thrift.version>
+    <thrift.version>0.9.3-1</thrift.version>
     <!-- ZooKeeper version -->
     <zookeeper.version>${cdh.zookeeper.version}</zookeeper.version>
   </properties>
